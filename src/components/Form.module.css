@@ -1,0 +1,24 @@
+.form {
+  width: 70%;
+
+  margin: auto;
+  background-color: gray;
+  border: 1px;
+  border-radius: 15px;
+}
+
+.textfield {
+}
+
+.buttons {
+
+}
+
+.buttons .button-ok {
+  display: block;
+  background-color: red;
+}
+
+.buttons .button-clear {
+  background-color: blue;
+}
