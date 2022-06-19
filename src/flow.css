@@ -1,0 +1,12 @@
+.react-flow{
+    min-height: 600px;
+    border: 1px solid black;
+    
+}
+.react-flow:hover{
+    cursor: -webkit-grab; cursor: grab;
+}
+
+.react-flow:active{
+    cursor: -webkit-grabbing; cursor: grabbing;
+}

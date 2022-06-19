@@ -9,31 +9,32 @@ import {
   getAvgLength,
 } from "../huffman";
 import classes from "./Form.module.css";
-const Form = () => {
+const Form = ({setTree}) => {
   const [textValue, setTextValue] = useState("");
-  const [chars, setChars] = useState("");
-  const [tree, setTree] = useState("");
-  const [charCode, setCharCode] = useState("");
+  const [chars, setChars] = useState(null);
+  
+  const [charCode, setCharCode] = useState(null);
   const [codeStr, setCodeStr] = useState("");
-  const [prob, setProb] = useState("");
-  const [entropy, setEntropy] = useState("");
-  const [avgLength, setAvgLength] = useState("");
+  const [prob, setProb] = useState(null);
+  const [entropy, setEntropy] = useState(null);
+  const [avgLength, setAvgLength] = useState(null);
   const [data, setData] = useState("");
-  const [znakKod, setZnakKod] = useState("");
-  const [znakWaga, setZnakWaga] = useState("");
 
-  const handleSubmit = () => {
+  const [codesTab, setCodesTab] = useState([]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
     const chars = getCharFrequency(textValue);
     console.log(chars);
-    setChars(chars);
+    setChars('chars',chars);
     const tree = buildTree(chars);
-    console.log(tree);
+    console.log('tree',tree);
     setTree(tree);
     const charCodes = getCharCode(tree);
-    console.log(charCodes);
+    console.log('charCodes',charCodes);
     setCharCode(charCodes);
     const codeStr = getCodeStr(charCodes, textValue);
-    console.log(codeStr);
+    console.log('codeStr',codeStr);
     setCodeStr(codeStr);
     const prob = getProb(chars, textValue);
     console.log(prob);
@@ -46,27 +47,28 @@ const Form = () => {
     setAvgLength(avgLength);
     setData(charCodes);
 
-    setZnakKod(Object.entries(charCode));
-    setZnakWaga(Object.entries(chars));
-
     
   };
 
   const handleClear = () => {
-    console.log("cleared");
     setTextValue("");
+    setCodeStr("")
+    setChars(null)
+    setTree(null)
+    setCharCode(null)
+    setProb(null)
+    setEntropy(null)
+    setAvgLength(null);
   };
 
 useEffect(() =>{
-
-
-  for (const [key, value] of Object.entries(charCode)) {
-    console.log(`${key}: ${value}`);
-    for(const i in (Object.entries(charCode).length)){
-      console.log("test");
+  if(charCode){
+    let codeTempTab = []
+    for (const [key, value] of Object.entries(charCode)) {
+      codeTempTab.push({letter: key, code: value, prob: prob[`${key}`]})  
     }
-    console.log();
-     }
+    setCodesTab(codeTempTab)
+  }
 
 },[charCode,chars])
 
@@ -80,7 +82,15 @@ useEffect(() =>{
               aria-rowcount={5}
               id={classes.word}
               value={textValue}
-              type="textarea"
+              onChange={(e) => setTextValue(e.target.value)}
+            ></textarea>
+          </div>
+          <div className={classes.textfield}>
+            <textarea
+              aria-rowcount={5}
+              id={`${classes.word}-2`}
+              value={codeStr}
+              disabled
               onChange={(e) => setTextValue(e.target.value)}
             ></textarea>
           </div>
@@ -110,16 +120,19 @@ useEffect(() =>{
           <tbody>
             <tr>
               <th>Symbol</th>
-              <th>Waga</th>
-              <th>Kod Huffmana</th>
+              <th>Kod</th>
+              <th>Prawdopodobieństwo</th>
             </tr>
-              {
-              
-
-              }
+            {codesTab.map(val => <tr key={val.letter}>
+              <td>"{val.letter}"</td>
+              <td>{val.code}</td>
+              <td>{val.prob}</td>
+            </tr>)}
           </tbody>
         </table>
       </div>
+      <p>Wartość entropii: {entropy}</p>
+      <p>Średnia długość {avgLength}</p>
     </div>
   );
 };

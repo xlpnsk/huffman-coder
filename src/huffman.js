@@ -47,7 +47,7 @@ export function buildTree(chars){
 }
 
 const tree = buildTree(chars)
-console.log(tree)
+
 
 export function getCharCode(tree){  
     let code = {}; 
@@ -71,7 +71,7 @@ export function getCharCode(tree){
 }  
 
 const charCodes = getCharCode(tree)
-console.log(charCodes)
+
 
 export function getCodeStr(charCodes, str){  
     let result = ''
@@ -82,7 +82,7 @@ export function getCodeStr(charCodes, str){
 }  
 
 const codeStr = getCodeStr(charCodes, text)
-console.log(codeStr)
+
 
 export function getProb(chars, text){
     let prob = {}
@@ -96,7 +96,7 @@ export function getProb(chars, text){
 }
 
 const prob = getProb(chars, text)
-console.log(prob)
+
 
 export function getEntropy(prob){
     let entropy = 0
@@ -107,7 +107,7 @@ export function getEntropy(prob){
 }
 
 const entropy = getEntropy(prob)
-console.log(entropy)
+
 
 export function getAvgLength(prob, charCodes){
     let length = 0
@@ -119,5 +119,5 @@ export function getAvgLength(prob, charCodes){
 }
 
 const avgLength = getAvgLength(prob, charCodes)
-console.log(avgLength)
+
 

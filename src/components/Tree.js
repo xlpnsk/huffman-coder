@@ -2,7 +2,7 @@ import { useCallback,useState, useEffect, useMemo } from "react";
 import ReactFlow, { addEdge, ConnectionLineType, useNodesState, useEdgesState } from 'react-flow-renderer';
 import CircleNode from './CircleNode'
 import dagre from 'dagre';
-
+import '../flow.css'
 const initialNodes = [
     {
       id: '1',
@@ -156,29 +156,29 @@ function destruct(array){
     return res;
 }
 
-function getEdge(nodes,iter=0,lastCenterId=null){
+function getEdge(nodes,iter=0,lastCenterId=null,lastIsLeft=false){
     let edges = []
     const [left, center, right] = nodes;
     if(lastCenterId){
-        edges.push({ id: `e1-${iter}-c-${lastCenterId}`, source: `${lastCenterId}`, target: `${center.id}` })
+        edges.push({ id: `e1-${lastCenterId}-${center.id}`, source: `${lastCenterId}`, target: `${center.id}`,label: `${lastIsLeft ? 0 : 1}` })
     }
     if(left !==null){
         if(Array.isArray(left)){
-            const leftEdges = getEdge(left, iter+1,center.id);
+            const leftEdges = getEdge(left, iter+1,center.id, lastIsLeft=true);
             edges.push(...leftEdges)
         }
         else{
-            edges.push({ id: `e1-${iter}-l`, source: `${center.id}`, target: `${left.id}` })
+            edges.push({ id: `e1-${center.id}}-${left.id}`, source: `${center.id}`, target: `${left.id}`,label: '0' })
         }  
     } 
 
     if(right !==null){
         if(Array.isArray(right)){
-            const rightEdges = getEdge(right,iter+1,center.id);
+            const rightEdges = getEdge(right,iter+1,center.id,lastIsLeft=false);
             edges.push(...rightEdges)
         }
         else{
-            edges.push({ id: `e1-${iter}-r`, source: `${center.id}`, target: `${right.id}` })
+            edges.push({ id: `e1-${center.id}}-${right.id}`, source: `${center.id}`, target: `${right.id}`,label: '1' })
         }
     } 
     
@@ -209,6 +209,9 @@ function createNode(element,iter=0,position={x: 0, y:25},letter="m"){
             type: 'circleNode',
             data: { value: element.val, input:true, output:true },
             position: position,
+            draggable:false,
+            connectable: false,
+            selectable: false
         };
 
         const [leftNode,heightL] = element.left ? createNode(element.left,iter+1,{x: position.x-100+40, y: position.y+100},`${letter}l`) : [null,iter]
@@ -224,6 +227,9 @@ function createNode(element,iter=0,position={x: 0, y:25},letter="m"){
             data: { label: <div style={{height: '100%', width: '100%', lineHeight: '40px',display: 'flex',alignItems: 'center', justifyContent: 'center' }}>{element.val} | "{element.char}"</div> },
             style: {width: '40px', height: '40px', fontSize: '12px', padding: '0'},
             position: position,
+            draggable:false,
+            connectable: false,
+            selectable: false
         }
 
         const [leftNode,heightL] = element.left ? createNode(element.left,iter+1,{x: position.x-100+40, y: position.y+100},`${letter}l`) : [null,iter]
@@ -241,16 +247,25 @@ const nodeTypes = {
     circleNode: CircleNode
 }
 
+function getUniqueByKey(array,key){
+    //key = object prop name (as a string)
+    const arrayUniqueByKey = [...new Map(array.map(item =>
+        [item[key], item])).values()];
+
+    return arrayUniqueByKey
+}
+
 function Tree({ tree }) {
     const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
     const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
     
     useEffect(() => {
         
-        const testTree = test();
-        const [resultNodes,height] = createNode(testTree);
+        // const testTree = test();
+        const [resultNodes,height] = createNode(tree);
         
-        const readyEdges = getEdge(resultNodes);
+        const readyEdges = getEdge(resultNodes)
+
         const readyNodes = destruct(resultNodes).filter(n => n).map(node => {
             node.position ={x:0, y:0}
             return node
@@ -291,7 +306,6 @@ function Tree({ tree }) {
             nodes={nodes} 
             edges={edges} 
             fitView 
-            style={{minHeight: '500px'}}
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
