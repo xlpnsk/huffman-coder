@@ -1,6 +1,6 @@
 const text = 'Katarzyna Kurek'
 
-function getCharFrequency(str){
+export function getCharFrequency(str){
     const freq = {}
     for(let i=0; i<str.length; i++){
         const char = str[i]
@@ -11,7 +11,7 @@ function getCharFrequency(str){
 
 let chars = getCharFrequency(text)
 
-function buildTree(chars){
+export function buildTree(chars){
     const tree = []
     for(let char in chars) {
         const node = {
@@ -49,7 +49,7 @@ function buildTree(chars){
 const tree = buildTree(chars)
 console.log(tree)
 
-function getCharCode(tree){  
+export function getCharCode(tree){  
     let code = {}; 
     let getCode = (node, currCode) => {  
         if (!node.length && !node.right) return
@@ -73,7 +73,7 @@ function getCharCode(tree){
 const charCodes = getCharCode(tree)
 console.log(charCodes)
 
-function getCodeStr(charCodes, str){  
+export function getCodeStr(charCodes, str){  
     let result = ''
     for(let i = 0; i < str.length; i++){  
         result += charCodes[str[i]]
@@ -84,12 +84,13 @@ function getCodeStr(charCodes, str){
 const codeStr = getCodeStr(charCodes, text)
 console.log(codeStr)
 
-function getProb(chars, text){
+export function getProb(chars, text){
     let prob = {}
+    let p = 0;
     Object.entries(chars).forEach(entry => {
         const [key, val] = entry;
-        p = val/text.length
-        prob[key] = p
+        p = val/text.length;
+        prob[key] = p;
     });
     return prob
 }
@@ -97,7 +98,7 @@ function getProb(chars, text){
 const prob = getProb(chars, text)
 console.log(prob)
 
-function getEntropy(prob){
+export function getEntropy(prob){
     let entropy = 0
     Object.values(prob).forEach(val => {
         entropy += val * Math.log2(1/val);
@@ -108,7 +109,7 @@ function getEntropy(prob){
 const entropy = getEntropy(prob)
 console.log(entropy)
 
-function getAvgLength(prob, charCodes){
+export function getAvgLength(prob, charCodes){
     let length = 0
     Object.entries(prob).forEach(entry => {
         const [key, val] = entry;
@@ -119,3 +120,4 @@ function getAvgLength(prob, charCodes){
 
 const avgLength = getAvgLength(prob, charCodes)
 console.log(avgLength)
+
