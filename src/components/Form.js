@@ -133,7 +133,7 @@ useEffect(() =>{
           </tbody>
         </table>
       <p>Wartość entropii: {entropy}</p>
-      <p>Średnia długość {avgLength}</p>
+      <p>Średnia długość: {avgLength}</p>
       </div>
       : <></>
                 }
