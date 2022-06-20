@@ -9,7 +9,10 @@ function App() {
   return (
     <div className="App">
       <Form setTree={setTree}/>
+      <div style={{width:"90%",margin:"auto"}}>
       {tree && <Tree tree={tree}/>}
+      </div>
+     
 
     </div>
   );

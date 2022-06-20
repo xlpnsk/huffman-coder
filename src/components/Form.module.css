@@ -2,17 +2,19 @@
   width: 70%;
 
   margin: auto;
-  background-color: gray;
+  background-color: #d6a96d;
   border: 1px;
   border-radius: 15px;
+  color: white;
 }
 
 .textfield {
-  background-color: gray;
+
   height: 100px;
   width: 80%;
   margin: auto;
   margin-bottom: 30px;
+  outline: 0;
 }
 
 
@@ -20,7 +22,29 @@
   resize: none;
   width: 100%;
   height: 100%;
+  outline: 0;
+  border: none;
+  padding: 0px;
 }
+
+.textfield textarea:focus{
+outline: 0;
+}
+
+.textfield textarea:hover{
+
+  overflow: auto;
+  outline: none;
+
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+
+  resize: none;
+  }
+  
+
+
 
 .buttons {
 
@@ -28,47 +52,77 @@ display: flex;
 justify-content: center;
 margin-top: 1%;
 padding-bottom: 1%;
+
 }
 
 .buttons .button-ok {
   display: block;
   margin-right: 10%;
-  width: 100px;
+  width: 150px;
   height: 50px;
-  background-color: #888888;
-  border: 5px solid #555555;
+  background-color: #d6a96d;
+  border: 5px solid white;
+  color: white;
   border-radius: 15px;
+  font-weight:bold;
 
 }
 
 .buttons .button-ok:hover {
   display: block;
-  width: 100px;
+  width: 150px;
   height: 50px;
-  background-color: #999999;
-  border: 5px solid #555555;
+  background-color: #b38e5f;
+  color: white;
   border-radius: 15px;
 
 }
 
 .buttons .button-clear {
   display: block;
-  width: 100px;
+  width: 150px;
   height: 50px;
-  background-color: #888888;
-  border: 5px solid #555555;
-  border-radius: 15px;}
+  background-color: #d6a96d;
+  border: 5px solid white;
+  color: white;
+  border-radius: 15px;
+  font-weight:bold;
+}
 
 .buttons .button-clear:hover {
   display: block;
-  width: 100px;
+  width: 150px;
   height: 50px;
-  background-color: #999999;
-  border: 5px solid #555555;
+  background-color: #b38e5f;
+  color: white;
   border-radius: 15px;}
 
 .table {
     margin: auto;
     
+
+}
+
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+th{
+  background-color: #b38e5f;
+  color: white;
+}
+
+table > th, td{
+  width: 30%;
+}
+
+p{
+  font-size: large;
+  font-weight: bold;
+  color: white;
+  margin-left: auto;
+  margin-right: auto;
+  width: 20%;
 
 }

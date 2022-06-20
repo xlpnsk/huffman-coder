@@ -20,7 +20,7 @@ const Form = ({setTree}) => {
   const [avgLength, setAvgLength] = useState(null);
   const [data, setData] = useState("");
 
-  const [codesTab, setCodesTab] = useState([]);
+  const [codesTab, setCodesTab] = useState(null);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -59,6 +59,7 @@ const Form = ({setTree}) => {
     setProb(null)
     setEntropy(null)
     setAvgLength(null);
+    setCodesTab(null);
   };
 
 useEffect(() =>{
@@ -87,6 +88,7 @@ useEffect(() =>{
           </div>
           <div className={classes.textfield}>
             <textarea
+            style={{background:"#b38e5f", color:"#EEEEEE"}}
               aria-rowcount={5}
               id={`${classes.word}-2`}
               value={codeStr}
@@ -101,7 +103,7 @@ useEffect(() =>{
               onClick={handleSubmit}
             >
               {" "}
-              Submit{" "}
+              Zbuduj drzewo{" "}
             </button>
             <button
               className={classes["button-clear"]}
@@ -109,13 +111,13 @@ useEffect(() =>{
               onClick={handleClear}
             >
               {" "}
-              Clear{" "}
+              Wyczyść dane{" "}
             </button>
           </div>
         </form>
       </div>
-      <div>
-        <h2> Tablica symboli</h2>
+      {codesTab ?<div>
+        <h2 style={{color:"white"}}> Tablica symboli</h2>
         <table className={classes.table}>
           <tbody>
             <tr>
@@ -130,9 +132,11 @@ useEffect(() =>{
             </tr>)}
           </tbody>
         </table>
-      </div>
       <p>Wartość entropii: {entropy}</p>
       <p>Średnia długość {avgLength}</p>
+      </div>
+      : <></>
+                }
     </div>
   );
 };
